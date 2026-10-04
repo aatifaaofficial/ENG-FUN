@@ -1,0 +1,92 @@
+entity-relationship-diagram
+
+users [icon: user, color: blue] {
+  id string pk
+  name string
+  email string
+  avatar string
+  totalWordsLearned number
+  dailyStreak number
+  accuracy number
+  totalXP number
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+vocabulary [icon: book, color: purple] {
+  id string pk
+  word string
+  partOfSpeech string
+  meaning string
+  bangla string
+  synonyms string
+  examples string
+  level string
+  createdAt timestamp
+}
+
+practice_questions [icon: help-circle, color: orange] {
+  id string pk
+  type string
+  question string
+  options string
+  correctAnswer string
+  explanation string
+  level string
+  vocabularyId string fk
+  createdAt timestamp
+}
+
+daily_streaks [icon: flame, color: red] {
+  id string pk
+  userId string fk
+  streakCount number
+  lastPracticeDate timestamp
+  createdAt timestamp
+}
+
+user_progress [icon: trending-up, color: green] {
+  id string pk
+  userId string fk
+  vocabularyId string fk
+  attempts number
+  correct number
+  mastered boolean
+  lastAttempt timestamp
+}
+
+user_favorites [icon: star, color: yellow] {
+  id string pk
+  userId string fk
+  vocabularyId string fk
+  createdAt timestamp
+}
+
+practice_attempts [icon: activity, color: green] {
+  id string pk
+  userId string fk
+  questionId string fk
+  userAnswer string
+  isCorrect boolean
+  xpGained number
+  attemptedAt timestamp
+}
+
+quiz_results [icon: target, color: green] {
+  id string pk
+  userId string fk
+  score number
+  totalQuestions number
+  accuracy number
+  completedAt timestamp
+}
+
+users.id > daily_streaks.userId
+users.id > user_progress.userId
+users.id > user_favorites.userId
+users.id > practice_attempts.userId
+users.id > quiz_results.userId
+vocabulary.id > user_progress.vocabularyId
+vocabulary.id > user_favorites.vocabularyId
+vocabulary.id > practice_questions.vocabularyId
+practice_questions.id > practice_attempts.questionId
